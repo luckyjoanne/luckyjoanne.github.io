@@ -1,3 +1,81 @@
+
+/* 先設定版面底圖 */
+
+:root{
+--bg: #0f1226;
+--text: #e7e8ee;
+--x: #ff6b6b;
+--o: #4dd0e1;
+--win: #ffe066;
+}
+*{box-sizing:border-box}
+
+html,body{height:100%;}
+body{
+    margin:0; font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+    background:var(--bg); color:var(--text); display:grid; place-items:center; padding:24px;
+}
+
+/* 再設計main的部分與h1 */
+.container{ width: min(720px, 96%); }
+h1{ margin:0 0 16px 0; font-size:24px; }
+.status{ margin-bottom:12px; }
+
+/* 設計棋盤<section id="board" class="board" aria-label="井字棋棋盤"> */
+.board{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:12px; border-radius:14px; width:min(560px, 92%); aspect-ratio:1/1;
+}
+
+/* 設計棋盤格<button class="cell" data-idx="0" aria-label="位置 1"> */
+.cell{
+    border-radius:10px; 
+    background:linear-gradient(180deg,#121430,#0e1030); 
+    border:1px solid rgba(255,255,255,0.03);
+    font-size:48px; 
+    font-weight:800;
+    display:grid;
+    place-items:center;
+    cursor:pointer; 
+    user-select:none; 
+    -webkit-tap-highlight-color:transparent;
+}
+
+.scoreboard{ margin-top:16px; text-align:left; display:inline-block; }
+.scoreboard h2{ margin-bottom:8px; font-size:18px; }
+
+/* 設計Reset鍵處<div class="controls"> */
+.controls{ margin-top:12px; }
+button{ padding:8px 12px; border-radius:10px; border:0;
+background:#21264a; color:var(--text); cursor:pointer; }
+button:disabled{ opacity:.5; cursor:not-allowed; }
+
+
+
+/* 勝利線 (由 JS 控制位置/角度/長度) */
+#win-line {
+    position: absolute;
+    width: 0;
+    height: 6px;
+    background: #ffe066;
+    box-shadow: 0 0 10px rgba(255, 240, 150, 0.8);
+    border-radius: 5px;
+    transform-origin: left center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 讓勝利線位於棋盤上方 */
+.container {
+    position: relative;
+}
+
+
+
+
+
+
 /* ---------------------------------------------
    UI / UX 改善區
    完全不改動你原本的樣式，只是額外強化
@@ -82,80 +160,3 @@
 }
 
 
-
-
-
-
-
-
-/* 先設定版面底圖 */
-
-:root{
---bg: #0f1226;
---text: #e7e8ee;
---x: #ff6b6b;
---o: #4dd0e1;
---win: #ffe066;
-}
-*{box-sizing:border-box}
-
-html,body{height:100%;}
-body{
-    margin:0; font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
-    background:var(--bg); color:var(--text); display:grid; place-items:center; padding:24px;
-}
-
-/* 再設計main的部分與h1 */
-.container{ width: min(720px, 96%); }
-h1{ margin:0 0 16px 0; font-size:24px; }
-.status{ margin-bottom:12px; }
-
-/* 設計棋盤<section id="board" class="board" aria-label="井字棋棋盤"> */
-.board{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    padding:12px; border-radius:14px; width:min(560px, 92%); aspect-ratio:1/1;
-}
-
-/* 設計棋盤格<button class="cell" data-idx="0" aria-label="位置 1"> */
-.cell{
-    border-radius:10px; 
-    background:linear-gradient(180deg,#121430,#0e1030); 
-    border:1px solid rgba(255,255,255,0.03);
-    font-size:48px; 
-    font-weight:800;
-    display:grid;
-    place-items:center;
-    cursor:pointer; 
-    user-select:none; 
-    -webkit-tap-highlight-color:transparent;
-}
-
-.scoreboard{ margin-top:16px; text-align:left; display:inline-block; }
-.scoreboard h2{ margin-bottom:8px; font-size:18px; }
-
-/* 設計Reset鍵處<div class="controls"> */
-.controls{ margin-top:12px; }
-button{ padding:8px 12px; border-radius:10px; border:0;
-background:#21264a; color:var(--text); cursor:pointer; }
-button:disabled{ opacity:.5; cursor:not-allowed; }
-
-
-
-/* 勝利線 (由 JS 控制位置/角度/長度) */
-#win-line {
-    position: absolute;
-    width: 0;
-    height: 6px;
-    background: #ffe066;
-    box-shadow: 0 0 10px rgba(255, 240, 150, 0.8);
-    border-radius: 5px;
-    transform-origin: left center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-/* 讓勝利線位於棋盤上方 */
-.container {
-    position: relative;
-}
