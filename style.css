@@ -1,3 +1,93 @@
+/* ---------------------------------------------
+   UI / UX 改善區
+   完全不改動你原本的樣式，只是額外強化
+---------------------------------------------- */
+
+/* 棋盤 hover 光暈 */
+.board:hover {
+    box-shadow: 0 0 20px rgba(255,255,255,0.12);
+    transition: box-shadow .3s ease;
+}
+
+/* 棋格 hover 效果 */
+.cell:hover:not(:disabled) {
+    background: linear-gradient(180deg,#1c214d,#13163b);
+    box-shadow: 0 0 12px rgba(255,255,255,0.08);
+    transform: scale(1.05);
+    transition: 0.15s ease;
+}
+
+/* X / O 動畫效果：縮放彈跳 */
+.cell.x, .cell.o {
+    animation: pop .18s ease-out;
+}
+
+@keyframes pop {
+    0% { transform: scale(.2); opacity:0; }
+    60% { transform: scale(1.2); opacity:1; }
+    100% { transform: scale(1); }
+}
+
+/* X 與 O 顯示顏色強化 */
+.cell.x { color: var(--x); }
+.cell.o { color: var(--o); }
+
+/* 勝利線格子亮光、脈動 */
+.cell.win {
+    background: linear-gradient(180deg,#ffd84d,#8e7400);
+    box-shadow: 0 0 12px rgba(255, 192, 67, 0.9);
+    animation: winPulse .8s infinite alternate;
+}
+
+@keyframes winPulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.08); }
+}
+
+/* 按鈕 hover 美化 */
+.controls button {
+    font-size: 15px;
+    letter-spacing: .5px;
+    transition: 0.2s ease;
+}
+
+.controls button:hover {
+    background:#35407d;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* 重置鍵動畫 */
+#reset-all:hover {
+    background:#9b1c1c !important;
+    box-shadow: 0 0 12px rgba(255,80,80,0.5);
+}
+
+/* 計分板文字亮度微強化 */
+.scoreboard span {
+    color:#ffe9a8;
+    font-weight: 700;
+}
+
+/* 目前輪到誰的強調效果 */
+#turn {
+    font-size: 22px;
+    color:#ffe066;
+    animation: glow .8s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 5px rgba(255,240,130,0.2); }
+    to   { text-shadow: 0 0 12px rgba(255,240,150,0.8); }
+}
+
+
+
+
+
+
+
+
 /* 先設定版面底圖 */
 
 :root{
@@ -49,3 +139,23 @@ h1{ margin:0 0 16px 0; font-size:24px; }
 button{ padding:8px 12px; border-radius:10px; border:0;
 background:#21264a; color:var(--text); cursor:pointer; }
 button:disabled{ opacity:.5; cursor:not-allowed; }
+
+
+
+/* 勝利線 (由 JS 控制位置/角度/長度) */
+#win-line {
+    position: absolute;
+    width: 0;
+    height: 6px;
+    background: #ffe066;
+    box-shadow: 0 0 10px rgba(255, 240, 150, 0.8);
+    border-radius: 5px;
+    transform-origin: left center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 讓勝利線位於棋盤上方 */
+.container {
+    position: relative;
+}
