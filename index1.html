@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>1132937 - HW09</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>XO 對電腦棋</h1>
+        <div id="status">玩家 (X) 先手</div>
+        <div id="board" class="board" aria-label="Tic Tac Toe board"></div>
+
+        <div class="controls">
+            <button id="resetBtn">重開一局</button>
+            <label class="switch">
+                <input type="checkbox" id="showHint" />
+                <span class="slider"></span>
+            </label>
+            <span class="hint-label">顯示電腦思考提示(debug) </span>
+        </div>
+        <p class="note">先手：玩家 X  /  電腦 : O (AI 使用 minimax,理論上不敗) </p>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+</html>
