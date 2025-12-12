@@ -1,7 +1,7 @@
 body {
     font-family: "Microsoft JhengHei", sans-serif;
     text-align: center;
-    background-color: #f2f2f2;
+    background: linear-gradient(#e9f0ff, #ffffff);
     margin: 0;
     padding: 20px;
     color: #222;
@@ -11,20 +11,40 @@ body {
     max-width: 420px;
     margin: 0 auto;
     background: #fff;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(15px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 h1 {
     color: #333;
     margin: 6px 0 10px;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+}
+
+/* 📌 新增計分板 */
+.scoreboard {
+    margin: 10px 0 16px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1rem;
+    background: #f6faff;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    font-weight: 600;
 }
 
 #status {
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 12px;
+    font-size: 1.1rem;
 }
 
 .board {
@@ -37,9 +57,9 @@ h1 {
     grid-template-rows: repeat(3, 1fr);
     gap: 8px;
     padding: 8px;
-    box-sizing: border-box;
-    background: linear-gradient(#fafafa, #f7f7f7);
-    border-radius: 10px;
+    background: linear-gradient(#fafafa, #f0f0f0);
+    border-radius: 12px;
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.05);
 }
 
 .cell {
@@ -50,16 +70,23 @@ h1 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.15s, transform 0.08s;
+    transition: background-color 0.15s, transform 0.1s;
     user-select: none;
-    border-radius: 6px;
+    border-radius: 10px;
     font-weight: 700;
     color: #333;
+    opacity: 0;
+    animation: fadeCell 0.3s forwards;
+}
+
+@keyframes fadeCell {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
 }
 
 .cell:hover {
-    transform: translateY(-3px);
-    background-color: #f0f0f0;
+    transform: translateY(-4px);
+    background-color: #f5f5f5;
 }
 
 .cell.disabled {
@@ -68,17 +95,23 @@ h1 {
 }
 
 .cell.win {
-    background-color: #d4ffd4;
-    border-color: #57c857;
-    box-shadow: 0 6px 18px rgba(87,200,87,0.12) inset;
+    background-color: #d4ffd4 !important;
+    border-color: #57c857 !important;
+    box-shadow: 0 0 18px rgba(87,200,87,0.4) inset;
+    animation: blink 0.7s alternate infinite;
+}
+
+@keyframes blink {
+    from { background-color: #ccffcc; }
+    to { background-color: #e9ffe9; }
 }
 
 .controls {
-    margin-top: 12px;
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
@@ -86,56 +119,43 @@ button {
     background: linear-gradient(180deg,#4da6ff,#1a78d7);
     color: white;
     border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
+    padding: 10px 16px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
-    box-shadow: 0 6px 14px rgba(26,120,215,0.18);
+    box-shadow: 0 8px 14px rgba(26,120,215,0.18);
+    transition: transform 0.1s;
 }
 
-button:active { transform: translateY(1px); }
+button:active { transform: translateY(2px); }
 
 .note {
     font-size: 0.85rem;
     color: #666;
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
-/* small toggle */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-}
+/* switch */
+.switch { position: relative; width: 44px; height: 24px; }
 .switch input { display:none; }
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
-  background-color: #ccc;
-  border-radius: 34px;
-  transition: .2s;
+    position: absolute; cursor: pointer; top: 0; left: 0;
+    right: 0; bottom: 0; background-color: #bbb;
+    border-radius: 25px; transition: .25s;
 }
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: .2s;
+    position: absolute; content: "";
+    height: 18px; width: 18px; left: 3px; bottom: 3px;
+    background-color: white; border-radius: 50%;
+    transition: .25s;
 }
 input:checked + .slider { background-color: #66bb6a; }
 input:checked + .slider:before { transform: translateX(20px); }
 
-.hint-label { font-size: 0.85rem; color: #666; margin-left: 6px; }
+.hint-label { font-size: 0.85rem; color: #666; }
 
-/* responsive */
 @media (max-width: 420px) {
   .board { width: 92vw; height: 92vw; gap: 6px; padding: 6px; }
-  .cell { font-size: 2.2rem; }
+  .cell { font-size: 2.3rem; }
 }
+

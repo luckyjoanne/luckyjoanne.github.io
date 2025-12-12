@@ -1,7 +1,12 @@
-// 遊戲主變數
+// ====== 遊戲主變數 ======
 let board = Array(9).fill(null);
 let current = 'X';
 let active = true;
+
+let playerScore = 0;
+let computerScore = 0;
+let drawScore = 0;
+
 const wins = [
     [0,1,2],[3,4,5],[6,7,8],
     [0,3,6],[1,4,7],[2,5,8],
@@ -12,26 +17,35 @@ const statusEl = () => document.getElementById('status');
 const boardEl = () => document.getElementById('board');
 const showHintCheckbox = () => document.getElementById('showHint');
 
+function updateScoreboard() {
+    document.getElementById("playerScore").innerText = playerScore;
+    document.getElementById("computerScore").innerText = computerScore;
+    document.getElementById("drawScore").innerText = drawScore;
+}
+
+// ===== 初始化 =====
 function init() {
-    const boardContainer = boardEl();
-    boardContainer.innerHTML = '';
+    const container = boardEl();
+    container.innerHTML = '';
+
     board = Array(9).fill(null);
     active = true;
     current = 'X';
-    statusEl().innerText = '玩家 (X) 先手';
+    statusEl().innerText = "玩家 (X) 先手";
 
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-        cell.setAttribute('data-index', i);
+        cell.setAttribute("data-index", i);
         cell.onclick = () => playerMove(i);
-        boardContainer.appendChild(cell);
+        container.appendChild(cell);
     }
 
-    document.getElementById('resetBtn').onclick = resetGame;
+    document.getElementById("resetBtn").onclick = resetGame;
+    updateScoreboard();
 }
 
-// 玩家下
+// ===== 玩家行動 =====
 function playerMove(i) {
     if (!active || board[i]) return;
 
@@ -40,54 +54,54 @@ function playerMove(i) {
 
     const winner = getWinner();
     if (winner) {
-        endGame(winner === 'X' ? '玩家 (X) 勝利！' : '電腦 (O) 勝利！', winner.line);
+        playerScore++;
+        endGame("玩家 (X) 勝利！", winner.line);
         return;
-    } else if (isFull()) {
-        endGame('平手！');
+    }
+
+    if (isFull()) {
+        drawScore++;
+        endGame("平手！");
         return;
     }
 
     current = 'O';
-    statusEl().innerText = '電腦思考中...';
+    statusEl().innerText = "電腦思考中...";
 
-    // 讓使用者看到變化，維持短延遲
-    setTimeout(() => {
-        computerMove();
-    }, 400);
+    setTimeout(computerMove, 400);
 }
 
-// 電腦下棋（使用 minimax）
+// ===== 電腦 AI 行動 =====
 function computerMove() {
     if (!active) return;
 
-    // 1) 先嘗試直接獲勝
+    // 優先快速處理
     let move = findWinningMove('O');
-    // 2) 再嘗試阻擋玩家
     if (move === null) move = findWinningMove('X');
-    // 3) 否則讓 minimax 決定（理論上包含 above 情況，但先檢查能加速決策）
-    if (move === null) {
-        // minimax (alpha-beta)
-        move = bestMoveMinimax();
-    }
-    // fallback 防護
-    if (move === null || board[move] !== null) move = getRandomMove();
+    if (move === null) move = bestMoveMinimax();
+    if (move === null) move = getRandomMove();
 
     board[move] = 'O';
     updateBoard();
 
     const winner = getWinner();
     if (winner) {
-        endGame(winner === 'X' ? '玩家 (X) 勝利！' : '電腦 (O) 勝利！', winner.line);
-        return;
-    } else if (isFull()) {
-        endGame('平手！');
+        computerScore++;
+        endGame("電腦 (O) 勝利！", winner.line);
         return;
     }
+
+    if (isFull()) {
+        drawScore++;
+        endGame("平手！");
+        return;
+    }
+
     current = 'X';
-    statusEl().innerText = '輪到玩家 (X)';
+    statusEl().innerText = "輪到玩家 (X)";
 }
 
-// 找能贏或能被阻止的那一步（回傳 index 或 null）
+// ===== 核心功能 =====
 function findWinningMove(player) {
     for (let [a,b,c] of wins) {
         const line = [board[a], board[b], board[c]];
@@ -99,146 +113,111 @@ function findWinningMove(player) {
 }
 
 function getRandomMove() {
-    const empty = board.map((v, i) => v ? null : i).filter(v => v !== null);
-    if (empty.length === 0) return null;
-    // 優先中心，再角落，再邊
+    const empty = board.map((v,i)=>v?null:i).filter(v=>v!==null);
     if (empty.includes(4)) return 4;
     const corners = [0,2,6,8].filter(i => empty.includes(i));
-    if (corners.length) return corners[Math.floor(Math.random() * corners.length)];
-    return empty[Math.floor(Math.random() * empty.length)];
+    if (corners.length) return corners[Math.floor(Math.random()*corners.length)];
+    return empty[Math.floor(Math.random()*empty.length)];
 }
 
-// 更新畫面並清除贏線樣式
 function updateBoard() {
-    const cells = document.getElementsByClassName('cell');
+    const cells = document.getElementsByClassName("cell");
     for (let i = 0; i < 9; i++) {
-        cells[i].innerText = board[i] || '';
-        cells[i].classList.remove('disabled', 'win');
-    }
-    // disable occupied cells' pointer
-    for (let i = 0; i < 9; i++) {
-        if (board[i]) document.getElementsByClassName('cell')[i].classList.add('disabled');
+        cells[i].innerText = board[i] || "";
+        cells[i].classList.remove("disabled", "win");
+        if (board[i]) cells[i].classList.add("disabled");
     }
 }
 
-// 判斷勝利者，回傳 {player: 'X'/'O', line: [a,b,c]} 或 null
 function getWinner() {
     for (let [a,b,c] of wins) {
         if (board[a] && board[a] === board[b] && board[b] === board[c]) {
-            return { player: board[a], line: [a,b,c] };
+            return {player: board[a], line:[a,b,c]};
         }
     }
     return null;
 }
 
 function isFull() {
-    return board.every(cell => cell !== null);
+    return board.every(v => v !== null);
 }
 
-function endGame(message, winLine = null) {
-    statusEl().innerText = message;
+function endGame(msg, line=null) {
+    statusEl().innerText = msg;
     active = false;
-    if (winLine && Array.isArray(winLine)) {
-        const cells = document.getElementsByClassName('cell');
-        for (let idx of winLine) cells[idx].classList.add('win');
+
+    updateScoreboard();
+
+    if (line) {
+        const cells = document.getElementsByClassName("cell");
+        for (let i of line) cells[i].classList.add("win");
     }
 }
 
-// 重開一局
-function resetGame() {
-    init();
-}
+function resetGame() { init(); }
 
-// ===== minimax with alpha-beta pruning =====
+// ===== minimax + alpha-beta =====
 function bestMoveMinimax() {
-    // If showHint checked, we will mark the evaluated best move temporarily
-    const hint = showHintCheckbox() && showHintCheckbox().checked;
-
     let bestScore = -Infinity;
     let move = null;
+
     for (let i = 0; i < 9; i++) {
         if (!board[i]) {
             board[i] = 'O';
             const score = minimax(board, 0, false, -Infinity, Infinity);
             board[i] = null;
+
             if (score > bestScore) {
                 bestScore = score;
                 move = i;
             }
         }
     }
-
-    // optional hint visual (very brief)
-    if (hint && move !== null) {
-        const cell = document.querySelector(`.cell[data-index="${move}"]`);
-        if (cell) {
-            cell.classList.add('win');
-            setTimeout(() => cell.classList.remove('win'), 350);
-        }
-    }
-
     return move;
 }
 
-// 返回評分：O 贏 -> +10 - depth, X 贏 -> -10 + depth, 平手 -> 0
-function evaluate(boardState, depth) {
-    // check wins
-    for (let [a,b,c] of wins) {
-        if (boardState[a] && boardState[a] === boardState[b] && boardState[b] === boardState[c]) {
-            if (boardState[a] === 'O') return 10 - depth;
-            if (boardState[a] === 'X') return -10 + depth;
-        }
-    }
-    return 0;
-}
+function minimax(state, depth, isMax, alpha, beta) {
+    const winner = getWinnerFromState(state);
+    if (winner) return winner.player === "O" ? 10 - depth : -10 + depth;
+    if (state.every(v=>v!==null)) return 0;
 
-function minimax(boardState, depth, isMaximizing, alpha, beta) {
-    const winner = getWinnerFromState(boardState);
-    if (winner) {
-        return winner.player === 'O' ? 10 - depth : -10 + depth;
-    }
-    if (boardState.every(cell => cell !== null)) {
-        return 0; // draw
-    }
-
-    if (isMaximizing) {
-        let maxEval = -Infinity;
-        for (let i = 0; i < 9; i++) {
-            if (!boardState[i]) {
-                boardState[i] = 'O';
-                const evalScore = minimax(boardState, depth + 1, false, alpha, beta);
-                boardState[i] = null;
-                maxEval = Math.max(maxEval, evalScore);
-                alpha = Math.max(alpha, evalScore);
-                if (beta <= alpha) break; // beta cutoff
+    if (isMax) {
+        let best = -Infinity;
+        for (let i=0;i<9;i++){
+            if (!state[i]) {
+                state[i] = "O";
+                let value = minimax(state, depth+1, false, alpha, beta);
+                state[i] = null;
+                best = Math.max(best, value);
+                alpha = Math.max(alpha, value);
+                if (beta <= alpha) break;
             }
         }
-        return maxEval;
+        return best;
     } else {
-        let minEval = Infinity;
-        for (let i = 0; i < 9; i++) {
-            if (!boardState[i]) {
-                boardState[i] = 'X';
-                const evalScore = minimax(boardState, depth + 1, true, alpha, beta);
-                boardState[i] = null;
-                minEval = Math.min(minEval, evalScore);
-                beta = Math.min(beta, evalScore);
-                if (beta <= alpha) break; // alpha cutoff
+        let best = Infinity;
+        for (let i=0;i<9;i++){
+            if (!state[i]) {
+                state[i] = "X";
+                let value = minimax(state, depth+1, true, alpha, beta);
+                state[i] = null;
+                best = Math.min(best, value);
+                beta = Math.min(beta, value);
+                if (beta <= alpha) break;
             }
         }
-        return minEval;
+        return best;
     }
 }
 
-// 檢查某個狀態的勝利（不使用全域 board）
-function getWinnerFromState(state) {
+function getWinnerFromState(s) {
     for (let [a,b,c] of wins) {
-        if (state[a] && state[a] === state[b] && state[b] === state[c]) {
-            return { player: state[a], line: [a,b,c] };
+        if (s[a] && s[a] === s[b] && s[b] === s[c]) {
+            return {player: s[a], line:[a,b,c]};
         }
     }
     return null;
 }
 
-// 初始化
+// ===== 啟動 =====
 init();

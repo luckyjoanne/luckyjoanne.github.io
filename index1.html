@@ -11,19 +11,30 @@
     <div class="container">
         <h1>XO 對電腦棋</h1>
         <div id="status">玩家 (X) 先手</div>
+
+        <!-- 📌 新增計分板 -->
+        <div class="scoreboard">
+            <div>玩家勝利：<span id="playerScore">0</span></div>
+            <div>電腦勝利：<span id="computerScore">0</span></div>
+            <div>平手：<span id="drawScore">0</span></div>
+        </div>
+
         <div id="board" class="board" aria-label="Tic Tac Toe board"></div>
 
         <div class="controls">
             <button id="resetBtn">重開一局</button>
+
             <label class="switch">
                 <input type="checkbox" id="showHint" />
                 <span class="slider"></span>
             </label>
-            <span class="hint-label">顯示電腦思考提示(debug) </span>
+            <span class="hint-label">顯示電腦思考提示(debug)</span>
         </div>
-        <p class="note">先手：玩家 X  /  電腦 : O (AI 使用 minimax,理論上不敗) </p>
+
+        <p class="note">先手：玩家 X  /  電腦 : O (AI 使用 minimax，不敗策略) </p>
     </div>
 
     <script src="script1.js"></script>
 </body>
 </html>
+
