@@ -1,29 +1,51 @@
 <!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <title>1132937 - HW09</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-</head>
+<html lang="zh-TW">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>1132937 - HW08</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-<body>
-    <div class="container">
-        <h1>XO 對電腦棋</h1>
-        <div id="status">玩家 (X) 先手</div>
-        <div id="board" class="board" aria-label="Tic Tac Toe board"></div>
-
-        <div class="controls">
-            <button id="resetBtn">重開一局</button>
-            <label class="switch">
-                <input type="checkbox" id="showHint" />
-                <span class="slider"></span>
-            </label>
-            <span class="hint-label">顯示電腦思考提示(debug) </span>
+    <body>
+        <main class="container">
+        <h1>1132937 - HW08 &nbsp; XO 井字棋</h1>
+        <div class="status">
+            <span>目前輪到：<strong id="turn">X</strong></span>
+            <span id="state"></span>
         </div>
-        <p class="note">先手：玩家 X  /  電腦 : O (AI 使用 minimax,理論上不敗) </p>
-    </div>
+        <!-- 棋盤容器 (9 格) -->
 
-    <script src="script.js"></script>
-</body>
+        <section id="board" class="board" aria-label="井字棋棋盤">
+            <button class="cell" data-idx="0" ></button>
+            <button class="cell" data-idx="1" ></button>
+            <button class="cell" data-idx="2" ></button>
+            <button class="cell" data-idx="3" ></button>
+            <button class="cell" data-idx="4" ></button>
+            <button class="cell" data-idx="5" ></button>
+            <button class="cell" data-idx="6" ></button>
+            <button class="cell" data-idx="7" ></button>
+            <button class="cell" data-idx="8" ></button>
+        </section>
+
+        <div class="scoreboard">
+            <h2>計分板</h2>
+            <p>X 勝場：<span id="score-x">0</span></p>
+            <p>O 勝場：<span id="score-o">0</span></p>
+            <p>平手次數：<span id="score-draw">0</span></p>
+        </div>
+
+        <!-- 控制按鈕 -->
+        <div class="controls">
+            <button id="reset">重開一局</button>
+            <button id="reset-all">重置計分</button>
+        </div>
+
+        <div id="win-line"></div>
+
+        </main>
+        <script src="script.js" defer></script>
+    </body>
 </html>
+
+
