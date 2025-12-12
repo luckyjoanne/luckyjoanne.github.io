@@ -1,162 +1,141 @@
-
-/* 先設定版面底圖 */
-
-:root{
---bg: #0f1226;
---text: #e7e8ee;
---x: #ff6b6b;
---o: #4dd0e1;
---win: #ffe066;
-}
-*{box-sizing:border-box}
-
-html,body{height:100%;}
-body{
-    margin:0; font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
-    background:var(--bg); color:var(--text); display:grid; place-items:center; padding:24px;
+body {
+    font-family: "Microsoft JhengHei", sans-serif;
+    text-align: center;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+    color: #222;
 }
 
-/* 再設計main的部分與h1 */
-.container{ width: min(720px, 96%); }
-h1{ margin:0 0 16px 0; font-size:24px; }
-.status{ margin-bottom:12px; }
-
-/* 設計棋盤<section id="board" class="board" aria-label="井字棋棋盤"> */
-.board{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    padding:12px; border-radius:14px; width:min(560px, 92%); aspect-ratio:1/1;
-}
-
-/* 設計棋盤格<button class="cell" data-idx="0" aria-label="位置 1"> */
-.cell{
-    border-radius:10px; 
-    background:linear-gradient(180deg,#121430,#0e1030); 
-    border:1px solid rgba(255,255,255,0.03);
-    font-size:48px; 
-    font-weight:800;
-    display:grid;
-    place-items:center;
-    cursor:pointer; 
-    user-select:none; 
-    -webkit-tap-highlight-color:transparent;
-}
-
-.scoreboard{ margin-top:16px; text-align:left; display:inline-block; }
-.scoreboard h2{ margin-bottom:8px; font-size:18px; }
-
-/* 設計Reset鍵處<div class="controls"> */
-.controls{ margin-top:12px; }
-button{ padding:8px 12px; border-radius:10px; border:0;
-background:#21264a; color:var(--text); cursor:pointer; }
-button:disabled{ opacity:.5; cursor:not-allowed; }
-
-
-
-/* 勝利線 (由 JS 控制位置/角度/長度) */
-#win-line {
-    position: absolute;
-    width: 0;
-    height: 6px;
-    background: #ffe066;
-    box-shadow: 0 0 10px rgba(255, 240, 150, 0.8);
-    border-radius: 5px;
-    transform-origin: left center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-/* 讓勝利線位於棋盤上方 */
 .container {
-    position: relative;
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
 
-
-
-
-
-
-/* ---------------------------------------------
-   UI / UX 改善區
-   完全不改動你原本的樣式，只是額外強化
----------------------------------------------- */
-
-/* 棋盤 hover 光暈 */
-.board:hover {
-    box-shadow: 0 0 20px rgba(255,255,255,0.12);
-    transition: box-shadow .3s ease;
+h1 {
+    color: #333;
+    margin: 6px 0 10px;
+    font-size: 1.4rem;
 }
 
-/* 棋格 hover 效果 */
-.cell:hover:not(:disabled) {
-    background: linear-gradient(180deg,#1c214d,#13163b);
-    box-shadow: 0 0 12px rgba(255,255,255,0.08);
-    transform: scale(1.05);
-    transition: 0.15s ease;
+#status {
+    font-weight: 600;
+    margin-bottom: 12px;
 }
 
-/* X / O 動畫效果：縮放彈跳 */
-.cell.x, .cell.o {
-    animation: pop .18s ease-out;
+.board {
+    width: 320px;
+    height: 320px;
+    max-width: 100%;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    background: linear-gradient(#fafafa, #f7f7f7);
+    border-radius: 10px;
 }
 
-@keyframes pop {
-    0% { transform: scale(.2); opacity:0; }
-    60% { transform: scale(1.2); opacity:1; }
-    100% { transform: scale(1); }
-}
-
-/* X 與 O 顯示顏色強化 */
-.cell.x { color: var(--x); }
-.cell.o { color: var(--o); }
-
-/* 勝利線格子亮光、脈動 */
-.cell.win {
-    background: linear-gradient(180deg,#ffd84d,#8e7400);
-    box-shadow: 0 0 12px rgba(255, 192, 67, 0.9);
-    animation: winPulse .8s infinite alternate;
-}
-
-@keyframes winPulse {
-    from { transform: scale(1); }
-    to   { transform: scale(1.08); }
-}
-
-/* 按鈕 hover 美化 */
-.controls button {
-    font-size: 15px;
-    letter-spacing: .5px;
-    transition: 0.2s ease;
-}
-
-.controls button:hover {
-    background:#35407d;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-}
-
-/* 重置鍵動畫 */
-#reset-all:hover {
-    background:#9b1c1c !important;
-    box-shadow: 0 0 12px rgba(255,80,80,0.5);
-}
-
-/* 計分板文字亮度微強化 */
-.scoreboard span {
-    color:#ffe9a8;
+.cell {
+    background-color: white;
+    border: 2px solid #bdbdbd;
+    font-size: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.08s;
+    user-select: none;
+    border-radius: 6px;
     font-weight: 700;
+    color: #333;
 }
 
-/* 目前輪到誰的強調效果 */
-#turn {
-    font-size: 22px;
-    color:#ffe066;
-    animation: glow .8s infinite alternate;
+.cell:hover {
+    transform: translateY(-3px);
+    background-color: #f0f0f0;
 }
 
-@keyframes glow {
-    from { text-shadow: 0 0 5px rgba(255,240,130,0.2); }
-    to   { text-shadow: 0 0 12px rgba(255,240,150,0.8); }
+.cell.disabled {
+    cursor: default;
+    opacity: 0.9;
 }
 
+.cell.win {
+    background-color: #d4ffd4;
+    border-color: #57c857;
+    box-shadow: 0 6px 18px rgba(87,200,87,0.12) inset;
+}
 
+.controls {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    background: linear-gradient(180deg,#4da6ff,#1a78d7);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 6px 14px rgba(26,120,215,0.18);
+}
+
+button:active { transform: translateY(1px); }
+
+.note {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* small toggle */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.switch input { display:none; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: .2s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .2s;
+}
+input:checked + .slider { background-color: #66bb6a; }
+input:checked + .slider:before { transform: translateX(20px); }
+
+.hint-label { font-size: 0.85rem; color: #666; margin-left: 6px; }
+
+/* responsive */
+@media (max-width: 420px) {
+  .board { width: 92vw; height: 92vw; gap: 6px; padding: 6px; }
+  .cell { font-size: 2.2rem; }
+}
