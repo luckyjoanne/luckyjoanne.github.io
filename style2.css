@@ -40,20 +40,48 @@ h1 {
     position: absolute;
     top: 10%;
     left: 10%;
+
     transform-style: preserve-3d;
-    transition: transform 0.45s;
-    box-shadow: 0px 0px 10px black;
+    transition: transform 0.6s;
+
+    /* 棋子厚度 illusion：內凹發亮 */
+    background: radial-gradient(circle at 30% 30%, 
+                rgba(255,255,255,0.9), 
+                rgba(0,0,0,0.9));
+
+    box-shadow:
+        inset 4px 4px 8px rgba(255,255,255,0.3),
+        inset -4px -4px 8px rgba(0,0,0,0.7),
+        0px 0px 10px rgba(0,0,0,0.8);
+
+    border: 3px solid rgba(0,0,0,0.5);
+
+    perspective: 800px;
 }
 
+/* 黑棋特效 */
 .disc.black {
-    background: black;
+    background: radial-gradient(circle at 30% 30%,
+                #444,
+                #000);
+    box-shadow:
+        inset 4px 4px 10px rgba(255,255,255,0.2),
+        inset -4px -4px 12px rgba(0,0,0,1),
+        0px 0px 12px rgba(0,0,0,0.8);
 }
 
+/* 白棋特效 */
 .disc.white {
-    background: white;
+    background: radial-gradient(circle at 30% 30%,
+                #fff,
+                #b5b5b5);
+    box-shadow:
+        inset 4px 4px 10px rgba(255,255,255,0.8),
+        inset -4px -4px 12px rgba(0,0,0,0.4),
+        0px 0px 12px rgba(0,0,0,0.8);
 }
 
-/*** 翻棋動畫 ***/
+/* 立體翻轉動畫 */
 .flip-anim {
     transform: rotateY(180deg);
 }
@@ -70,3 +98,4 @@ h1 {
     margin-top: 15px;
     font-size: 20px;
 }
+
