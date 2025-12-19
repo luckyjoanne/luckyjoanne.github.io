@@ -118,19 +118,22 @@ function inside(r,c){
     return r>=0 && r<SIZE && c>=0 && c<SIZE;
 }
 
-/*** 真正落子並做翻面動畫 ***/
 function move(r,c,color,flips){
 
-    // 先放玩家/電腦棋子
+    // 放棋子動畫
     board[r][c] = color;
     draw();
 
-    // 動畫延遲起點
+    // 增加彈跳動畫
+    let placed = document.getElementById(`disc-${r}-${c}`);
+    if (placed) placed.classList.add("place-anim");
+
+    // 翻棋動畫開始
     let delay = 0;
-    
+
     flips.forEach(([rr,cc]) => {
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
             let chip = document.getElementById(`disc-${rr}-${cc}`);
 
@@ -138,21 +141,23 @@ function move(r,c,color,flips){
 
             chip.classList.add("flip-anim");
 
-            setTimeout(()=>{
+            setTimeout(() => {
+
                 board[rr][cc] = color;
                 draw();
-            },230);
 
-        },delay);
+            }, 300);
 
-        delay += 500; // 依序動畫間隔
+        }, delay);
+
+        delay += 500; // 一顆一顆順序翻
 
     });
 
-    // 換手延後到所有動畫完成後
-    setTimeout(()=>{
+    // 換手延後
+    setTimeout(() => {
 
-        turn = (turn===1 ? 2 : 1);
+        turn = (turn===1?2:1);
         draw();
         checkGameEnd();
 
@@ -232,6 +237,7 @@ function advancedMove(moves){
 
     return greedyMove(moves);
 }
+
 
 
 
