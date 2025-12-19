@@ -174,6 +174,18 @@ function checkGameEnd(){
     if (b>w) statusDiv.innerHTML="遊戲結束：黑棋勝！";
     else if (b<w) statusDiv.innerHTML="遊戲結束：白棋勝！";
     else statusDiv.innerHTML="遊戲結束：平手！";
+    
+    
+    if (gameEnd) {
+
+    // 所有棋子加動畫 class
+    document.querySelectorAll(".disc").forEach(d=>{
+        d.classList.add("end-anim");
+    });
+
+    // 讓 status 加閃動
+    statusDiv.classList.add("gameover");
+    }
 }
 
 /*** 找合法棋步 ***/
@@ -232,6 +244,7 @@ function advancedMove(moves){
 
     return greedyMove(moves);
 }
+
 
 
 
