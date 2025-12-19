@@ -145,7 +145,7 @@ function move(r,c,color,flips){
 
         },delay);
 
-        delay += 200; // 依序動畫間隔
+        delay += 300; // 依序動畫間隔
 
     });
 
@@ -232,5 +232,6 @@ function advancedMove(moves){
 
     return greedyMove(moves);
 }
+
 
 
