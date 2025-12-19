@@ -1,44 +1,132 @@
+/* ================================
+   Global Theme
+================================ */
+
 body {
-    background: radial-gradient(circle, #0b6623, #022c10);
-    color: white;
+    background: radial-gradient(circle, #6c8e5d, #2b452d);
+    color: #f4f4f4;
     text-align: center;
-    font-family: sans-serif;
+    font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
 }
 
+/* Title */
 h1 {
-    font-size: 30px;
-    margin-top: 20px;
-    text-shadow: 0px 0px 10px black;
+    font-size: 34px;
+    margin-top: 22px;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0px 0px 12px rgba(0,0,0,0.9);
 }
 
-/* 棋盤木紋 */
+/* Status & text */
+#status {
+    margin-top: 15px;
+    padding: 8px 16px;
+    display: inline-block;
+    font-size: 22px;
+    border-radius: 6px;
+    color: #fffce6;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* ================================
+   BOARD (木紋調舒服化)
+================================ */
+
 #board {
     width: 520px;
     height: 520px;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    background: url("https://i.imgur.com/1bk0r3w.jpeg");
+
+    background: url("https://i.imgur.com/CB3cvZr.jpeg");
+
     background-size: cover;
-    border: 10px solid #2a1b06;
-    border-radius: 5px;
-    box-shadow: 0 0 20px black inset, 0 0 20px black;
+    border: 10px solid #5b4427;
+    border-radius: 6px;
+    box-shadow:
+        0 0 25px rgba(0,0,0,0.6) inset,
+        0 0 30px rgba(0,0,0,0.6);
 }
 
-/* 棋盤格立體 */
+/* ================================
+   CELL (棋格更柔順)
+================================ */
+
 .cell {
-    border: 2px solid rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.05);
     position: relative;
     cursor: pointer;
     perspective: 800px;
-    background: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.18);
+    transition: 0.18s;
 }
 
 .cell:hover {
-    filter: brightness(140%);
+    background: rgba(255,255,255,0.08);
+    filter: brightness(125%);
 }
 
-/* 3D棋子：使用前後與側面模擬厚度 */
+/* ================================
+   LEGAL INDICATOR
+================================ */
+
+.possible {
+    background: rgba(255,255,255,0.28)!important;
+    border: 2px solid #ffe66d;
+    box-shadow: 0 0 15px #ffea9d inset;
+}
+
+/* ================================
+   BUTTON STYLE
+================================ */
+
+button {
+    background: #3b3b3b;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: 0.25s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+button:hover {
+    background: #ffc400;
+    color: black;
+    transform: translateY(-2px);
+}
+
+/* ================================
+   SELECT MENU
+================================ */
+
+select {
+    background: rgba(255,255,255,0.85);
+    padding: 6px 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* ================================
+   DISC 立體棋子 (保持你原設計)
+================================ */
+
 .disc {
     width: 76%;
     height: 76%;
@@ -46,72 +134,49 @@ h1 {
     position: absolute;
     top: 12%;
     left: 12%;
+
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(.42, -0.33, .45, 1.4);
 }
 
-/* 棋子厚度 */
+/* 厚度 */
 .disc::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     transform: translateZ(-12px);
 }
 
-/* 黑棋材質 */
 .disc.black {
-    background: radial-gradient(circle at 40% 30%, #555, #000);
-    box-shadow:
-        inset 6px 6px 12px rgba(255,255,255,0.1),
-        inset -6px -6px 14px rgba(0,0,0,0.9),
-        0 0 12px black;
+    background: radial-gradient(circle at 40% 30%, #101010, #000);
+    box-shadow: inset 4px 4px 8px rgba(255,255,255,0.2),
+                inset -6px -6px 10px rgba(0,0,0,1),
+                0px 0px 12px rgba(0,0,0,0.7);
 }
-.disc.black::after {
-    background: #111;
-}
-
-/* 白棋材質 */
 .disc.white {
-    background: radial-gradient(circle at 40% 30%, #fff, #bbb);
-    box-shadow:
-        inset 6px 6px 12px rgba(255,255,255,0.8),
-        inset -6px -6px 14px rgba(0,0,0,0.4),
-        0 0 12px black;
-}
-.disc.white::after {
-    background: #d9d9d9;
+    background: radial-gradient(circle at 40% 30%, #fff, #d7d7d7);
+    box-shadow: inset 4px 4px 12px rgba(255,255,255,1),
+                inset -6px -6px 14px rgba(0,0,0,0.5),
+                0px 0px 12px rgba(0,0,0,0.7);
 }
 
-/* 立體翻轉動畫 */
 .flip-anim {
     transform: rotateY(180deg);
 }
 
-/* 合法落子顯示 */
-.possible {
-    background: rgba(255,255,255,0.28)!important;
-    backdrop-filter: blur(3px);
-    border: 1px solid yellow;
-}
-
-/* 落下動畫 */
+/* 落子掉落動畫 */
 .place-anim {
-    animation: drop .25s ease-out;
+    animation: drop .3s ease-out;
 }
 
 @keyframes drop {
-    from { transform: scale(0.2); opacity: 0; }
+    from { transform: scale(0.1); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
-#status {
-    margin-top: 15px;
-    font-size: 20px;
-}
+
 
 
 
