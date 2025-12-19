@@ -1,84 +1,89 @@
 body {
-    background: linear-gradient(#265427, #143315);
+    background: radial-gradient(circle, #0b6623, #022c10);
     color: white;
     text-align: center;
     font-family: sans-serif;
 }
 
 h1 {
-    font-size: 28px;
-    text-shadow: 0px 0px 8px black;
+    font-size: 30px;
+    margin-top: 20px;
+    text-shadow: 0px 0px 10px black;
 }
 
+/* 棋盤木紋 */
 #board {
-    width: 480px;
-    height: 480px;
+    width: 520px;
+    height: 520px;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    border: 8px solid #0c260d;
-    border-radius: 8px;
-    background: #013b11;
-    box-shadow: 0px 0px 20px black;
+    background: url("https://i.imgur.com/1bk0r3w.jpeg");
+    background-size: cover;
+    border: 10px solid #2a1b06;
+    border-radius: 5px;
+    box-shadow: 0 0 20px black inset, 0 0 20px black;
 }
 
+/* 棋盤格立體 */
 .cell {
-    border: 1px solid black;
+    border: 2px solid rgba(0,0,0,0.4);
     position: relative;
     cursor: pointer;
-    perspective: 600px;
+    perspective: 800px;
+    background: rgba(0,0,0,0.15);
 }
 
 .cell:hover {
-    filter: brightness(120%);
+    filter: brightness(140%);
 }
 
+/* 3D棋子：使用前後與側面模擬厚度 */
 .disc {
-    width: 80%;
-    height: 80%;
+    width: 76%;
+    height: 76%;
     border-radius: 50%;
     position: absolute;
-    top: 10%;
-    left: 10%;
-
+    top: 12%;
+    left: 12%;
     transform-style: preserve-3d;
-    transition: transform 0.6s;
-
-    /* 棋子厚度 illusion：內凹發亮 */
-    background: radial-gradient(circle at 30% 30%, 
-                rgba(255,255,255,0.9), 
-                rgba(0,0,0,0.9));
-
-    box-shadow:
-        inset 4px 4px 8px rgba(255,255,255,0.3),
-        inset -4px -4px 8px rgba(0,0,0,0.7),
-        0px 0px 10px rgba(0,0,0,0.8);
-
-    border: 3px solid rgba(0,0,0,0.5);
-
-    perspective: 800px;
+    transition: transform 0.6s cubic-bezier(.42, -0.33, .45, 1.4);
 }
 
-/* 黑棋特效 */
+/* 棋子厚度 */
+.disc::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: translateZ(-12px);
+}
+
+/* 黑棋材質 */
 .disc.black {
-    background: radial-gradient(circle at 30% 30%,
-                #444,
-                #000);
+    background: radial-gradient(circle at 40% 30%, #555, #000);
     box-shadow:
-        inset 4px 4px 10px rgba(255,255,255,0.2),
-        inset -4px -4px 12px rgba(0,0,0,1),
-        0px 0px 12px rgba(0,0,0,0.8);
+        inset 6px 6px 12px rgba(255,255,255,0.1),
+        inset -6px -6px 14px rgba(0,0,0,0.9),
+        0 0 12px black;
+}
+.disc.black::after {
+    background: #111;
 }
 
-/* 白棋特效 */
+/* 白棋材質 */
 .disc.white {
-    background: radial-gradient(circle at 30% 30%,
-                #fff,
-                #b5b5b5);
+    background: radial-gradient(circle at 40% 30%, #fff, #bbb);
     box-shadow:
-        inset 4px 4px 10px rgba(255,255,255,0.8),
-        inset -4px -4px 12px rgba(0,0,0,0.4),
-        0px 0px 12px rgba(0,0,0,0.8);
+        inset 6px 6px 12px rgba(255,255,255,0.8),
+        inset -6px -6px 14px rgba(0,0,0,0.4),
+        0 0 12px black;
+}
+.disc.white::after {
+    background: #d9d9d9;
 }
 
 /* 立體翻轉動畫 */
@@ -86,17 +91,28 @@ h1 {
     transform: rotateY(180deg);
 }
 
+/* 合法落子顯示 */
 .possible {
-    background: rgba(72,255,74,0.35)!important;
+    background: rgba(255,255,255,0.28)!important;
+    backdrop-filter: blur(3px);
+    border: 1px solid yellow;
 }
 
-.controls {
-    margin: 10px;
+/* 落下動畫 */
+.place-anim {
+    animation: drop .25s ease-out;
+}
+
+@keyframes drop {
+    from { transform: scale(0.2); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 #status {
     margin-top: 15px;
     font-size: 20px;
 }
+
+
 
 
