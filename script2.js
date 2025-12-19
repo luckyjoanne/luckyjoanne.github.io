@@ -118,7 +118,6 @@ function inside(r,c){
     return r>=0 && r<SIZE && c>=0 && c<SIZE;
 }
 
-/*** 真正落子並做翻面動畫 ***/
 function move(r,c,color,flips){
 
     // 先放玩家/電腦棋子
@@ -233,6 +232,7 @@ function advancedMove(moves){
 
     return greedyMove(moves);
 }
+
 
 
 
