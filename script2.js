@@ -118,44 +118,31 @@ function inside(r,c){
     return r>=0 && r<SIZE && c>=0 && c<SIZE;
 }
 
-function move(r,c,color,flips){
-
-    // 先放玩家/電腦棋子
-    board[r][c] = color;
-    draw();
-
-    // 動畫延遲起點
-    let delay = 0;
+/*** 真正落子並做翻面動畫 ***/ function move(r,c,color,flips){ 
     
-    flips.forEach(([rr,cc]) => {
-
-        setTimeout(()=>{
-
-            let chip = document.getElementById(`disc-${rr}-${cc}`);
-
-            if (!chip) return;
-
-            chip.classList.add("flip-anim");
-
-            setTimeout(()=>{
-                board[rr][cc] = color;
-                draw();
-            },230);
-
-        },delay);
-
-        delay += 500; // 依序動畫間隔
-
-    });
-
-    // 換手延後到所有動畫完成後
-    setTimeout(()=>{
-
-        turn = (turn===1 ? 2 : 1);
-        draw();
-        checkGameEnd();
-
-    }, delay + 200);
+    // 先放玩家/電腦棋子 
+    board[r][c] = color; 
+    draw(); 
+    
+    // 動畫延遲起點 
+    let delay = 0; 
+    flips.forEach(([rr,cc]) => { 
+        setTimeout(()=>{ 
+            let chip = document.getElementById(disc-${rr}-${cc}); 
+            if (!chip) return; 
+            chip.classList.add("flip-anim"); 
+            setTimeout(()=>{ 
+                board[rr][cc] = color; 
+                draw(); 
+            },230); },delay); 
+            delay += 500; // 依序動畫間隔 
+    }); 
+    // 換手延後到所有動畫完成後 
+    setTimeout(()=>{ 
+        turn = (turn===1 ? 2 : 1); 
+        draw(); 
+        checkGameEnd(); 
+    }, delay + 200); 
 }
 
 
@@ -232,6 +219,7 @@ function advancedMove(moves){
 
     return greedyMove(moves);
 }
+
 
 
 
