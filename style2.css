@@ -1,0 +1,72 @@
+body {
+    background: linear-gradient(#265427, #143315);
+    color: white;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+h1 {
+    font-size: 28px;
+    text-shadow: 0px 0px 8px black;
+}
+
+#board {
+    width: 480px;
+    height: 480px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    border: 8px solid #0c260d;
+    border-radius: 8px;
+    background: #013b11;
+    box-shadow: 0px 0px 20px black;
+}
+
+.cell {
+    border: 1px solid black;
+    position: relative;
+    cursor: pointer;
+    perspective: 600px;
+}
+
+.cell:hover {
+    filter: brightness(120%);
+}
+
+.disc {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    transform-style: preserve-3d;
+    transition: transform 0.45s;
+    box-shadow: 0px 0px 10px black;
+}
+
+.disc.black {
+    background: black;
+}
+
+.disc.white {
+    background: white;
+}
+
+/*** 翻棋動畫 ***/
+.flip-anim {
+    transform: rotateY(180deg);
+}
+
+.possible {
+    background: rgba(72,255,74,0.35)!important;
+}
+
+.controls {
+    margin: 10px;
+}
+
+#status {
+    margin-top: 15px;
+    font-size: 20px;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>11XXXXX -HW10</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+<h1>黑白棋與電腦對戰 HW10</h1>
+
+<div class="controls">
+    <button id="restart">重新開始</button>
+
+    <label>電腦棋力：
+        <select id="ai-level">
+            <option value="basic">基本棋力：翻最多子</option>
+            <option value="advanced">進階棋力：角落優先 + Greedy</option>
+        </select>
+    </label>
+</div>
+
+<div id="board"></div>
+
+<div id="status"></div>
+
+<script src="script2.js"></script>
+</body>
+</html>
