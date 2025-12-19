@@ -69,35 +69,36 @@ h1 {
         inset 4px 4px 10px rgba(255,255,255,0.2), 
         inset -4px -4px 12px rgba(0,0,0,1), 
         0px 0px 12px rgba(0,0,0,0.8); 
-    } 
+} 
     
-    /* 白棋特效 */ 
-    .disc.white { 
-        background: radial-gradient(circle at 30% 30%,
-            #fff, 
-            #b5b5b5); 
-        box-shadow: 
-            inset 4px 4px 10px rgba(255,255,255,0.8), 
-            inset -4px -4px 12px rgba(0,0,0,0.4), 
-            0px 0px 12px rgba(0,0,0,0.8); 
-    } 
-    /* 立體翻轉動畫 */ 
-    .flip-anim { 
-        transform: rotateY(180deg); 
-    } 
+/* 白棋特效 */ 
+.disc.white { 
+    background: radial-gradient(circle at 30% 30%,
+        #fff, 
+        #b5b5b5); 
+    box-shadow: 
+        inset 4px 4px 10px rgba(255,255,255,0.8), 
+        inset -4px -4px 12px rgba(0,0,0,0.4), 
+        0px 0px 12px rgba(0,0,0,0.8); 
+} 
+/* 立體翻轉動畫 */ 
+.flip-anim { 
+    transform: rotateY(180deg); 
+} 
     
-    .possible { 
-        background: rgba(72,255,74,0.35)!important; 
-    } 
+.possible { 
+    background: rgba(72,255,74,0.35)!important; 
+} 
     
-    .controls { 
-        margin: 10px; 
-    } 
+.controls { 
+    margin: 10px; 
+} 
     
-    #status { 
-        margin-top: 15px; 
-        font-size: 20px; 
-    }
+#status { 
+    margin-top: 15px; 
+    font-size: 20px; 
+}
+
 
 
 
