@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1132937 - FinalTerm</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎯 九路圍棋：專業級競技系統</h1>
+        <div class="main-layout">
+            <div class="status-panel">
+                <div class="status" id="status">🖤 黑棋回合 (User)</div>
+                <div class="score-board">
+                    <div class="score-card black">
+                        <span class="label">黑棋(User) 活子+地</span>
+                        <span id="blackScore" class="value">0</span>
+                    </div>
+                    <div class="score-card white">
+                        <span class="label">白棋(AI) 活子+地</span>
+                        <span id="whiteScore" class="value">0</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button onclick="game.undoMove()" id="undoBtn">悔棋 (Undo)</button>
+                    <button onclick="newGame()" class="primary">重新開始</button>
+                    <button class="pass-btn" onclick="game.pass(false)" id="passBtn">虛手 / 終局決算 (Pass)</button>
+                </div>
+                <div class="rule-hint">
+                    💡 點擊棋子：顯示<b>活棋範圍(氣)</b><br>
+                    ⚠️ 閃爍提示：該群棋子正處於<b>叫吃</b>
+                </div>
+            </div>
+
+            <div class="board-wrapper">
+                <div class="coord-row top"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span></div>
+                <div class="board-flex">
+                    <div class="coord-col left"><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+                    <div id="board" class="go-board">
+                        <div class="grid-lines"></div>
+                        <div class="star-points">
+                            <div class="star s1"></div><div class="star s2"></div>
+                            <div class="star s3"></div>
+                            <div class="star s4"></div><div class="star s5"></div>
+                        </div>
+                        <div id="intersections" class="intersections"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script3.js"></script>
+</body>
+</html>
+
+
+
+
+
+
